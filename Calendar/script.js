@@ -31,11 +31,15 @@ $(function () {
     
     const saveButton = document.querySelector("button");
   
-    saveButton.addEventListener("click", function () {
+    saveButton.addEventListener("click", function(event) {
       console.log("I pressed the button!")
-      var note = document.getElementById("hour-09");
+      var test = $(event.target.parentElement.childNodes[3].value)
+      console.log(test)
+      var note = $(event.target.parentElement.childNodes[3].value)
       console.log("Note: " + note)
       localStorage.setItem("hour-09", note);
+      var storage = localStorage.getItem("hour-09")
+      console.log(storage)  
     }
     );
   
