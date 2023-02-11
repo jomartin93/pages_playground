@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.16/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.16/locale/en-gb.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.16/plugin/utc.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.8.16/plugin/localizedFormat.js"></script>
+    <style>
+      .calendar {
+        display: grid;
+        grid-template-columns: repeat(24, 1fr);
+        grid-gap: 5px;
+        padding: 5px;
+      }
+      .hour-block {
+        background-color: lightblue;
+        padding: 5px;
+        border-radius: 5px;
+      }
+      .hour-block p {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calendar">
+      <!-- Generate 24 hour blocks -->
+      <script>
+        for (let i = 0; i < 24; i++) {
+          let currentHour = dayjs().hour(i).minute(0).second(0);
+          let formattedHour = currentHour.format("HH:mm");
+          document.write(
+            `<div class="hour-block">
+              <p>${formattedHour}</p>
+              <input type="text" placeholder="Add event" id="event-${i}" />
+              <button onclick="saveEvent(${i})">Save</button>
+            </div>`
+          );
+        }
+      </script>
+    </div>
+
+    <!-- Save event function -->
+    <script>
+      function saveEvent(hour) {
+        let eventInput = document.getElementById(`event-${hour}`);
+        let eventValue = eventInput.value;
+        localStorage.setItem(`event-${hour}`, eventValue);
+      }
+    </script>
+
+    <!-- Load saved events -->
+    <script>
+      for (let i = 0; i < 24; i++) {
+        let savedEvent = localStorage.getItem(`event-${i}`);
+        if (savedEvent) {
+          let eventInput = document.getElementById(`event-${i}`);
+          eventInput.value = savedEvent;
+        }
+      }
+    </script>
+  </body>
+</html>
